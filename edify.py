@@ -160,7 +160,7 @@ def jsontoquotestack(jsonquotes,quotestack):
     try:
         length= len(jsonquotes['data']['children'])
         while i < length:
-            quotestack.append(str(jsonquotes['data']['children'][i]['data']['title']))
+            quotestack.append(str(jsonquotes['data']['children'][i]['data']['title'] + "--" +jsonquotes['data']['children'][i]['data']['selftext']))
             i+=1
     except:
         logging.info('Reddit Does Not Like You')
@@ -190,7 +190,7 @@ def redditquotes(img, config):
     try:
         logging.info("get reddit quotes")
         numline=10
-        quoteurl = 'https://www.reddit.com/r/quotes/top/.json?t=week&limit=100'
+        quoteurl = 'https://www.reddit.com/r/dadjokes/top/.json?t=week&limit=100'
         quotestack = getallquotes(quoteurl)
     #   Tidy quotes
         i=0
@@ -237,6 +237,7 @@ def redditquotes(img, config):
                 height= 30
                 width= 20
                 fontsize=24
+                logging.info("quote is:"+quote)
                 img, numline =writewrappedlines(img,quote,fontsize,y_text,height, width,fontstring)
                 source = splitquote[-1]
                 source = source.strip()
@@ -244,6 +245,7 @@ def redditquotes(img, config):
                 draw = ImageDraw.Draw(img) 
                 draw.line((90,140,174,140), fill=255, width=1)
     #           _place_text(img, text, x_offset=0, y_offset=0,fontsize=40,fontstring="Forum-Regular"):
+                logging.info("source is:"+source)
                 _place_text(img,source,0,65,20,"Rajdhani-Regular")
             if numline<5 and numline >1:
                 success=True
@@ -291,7 +293,6 @@ def beanaproblem(message):
     writewrappedlines(image, "Issue: "+message,10, y_text=20)
     return image
 
-
 def main():
     try:  
 #       Get the configuration from config.yaml
@@ -317,7 +318,6 @@ def main():
                     img = Image.new("RGB", (264,176), color = (255, 255, 255) )
                     configsubset = config
                     img, datapulled = eval(thefunction+"(img,configsubset)")
-                    display_image(img)
                     lastfetch = time.time()
             time.sleep(10)
 
