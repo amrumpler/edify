@@ -318,6 +318,7 @@ def main():
                     img = Image.new("RGB", (264,176), color = (255, 255, 255) )
                     configsubset = config
                     img, datapulled = eval(thefunction+"(img,configsubset)")
+                    display_image(img)
                     lastfetch = time.time()
             time.sleep(10)
 
